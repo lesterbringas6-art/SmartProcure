@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartProcure - Register</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .register-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #333; margin-bottom: 24px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #666; font-size: 14px; }
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
+        input:focus { border-color: #4A90E2; outline: none; }
+        button { width: 100%; padding: 12px; background-color: #4A90E2; border: none; color: white; font-size: 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #357ABD; }
+        .alert { padding: 12px; margin-bottom: 20px; border-radius: 4px; font-size: 14px; text-align: center; }
+        .alert-error { background-color: #fde8e8; color: #e53e3e; border: 1px solid #fbd5d5; }
+        .alert-success { background-color: #def7ec; color: #03543f; border: 1px solid #bcf0da; }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <h2>SmartProcure Registration</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="/register" method="POST" onsubmit="return validatePasswords()">
+        <div class="form-group">
+            <label for="employee_id">Employee ID</label>
+            <input type="text" id="employee_id" name="employee_id" required placeholder="e.g. EMP123">
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Enter password">
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" id="confirm_password" name="confirm_password" required placeholder="Repeat password">
+        </div>
+        <button type="submit">Register Account</button>
+        <div class="redirect-link" style="text-align: center; margin-top: 15px; font-size: 14px; color: #666;">
+        Already have an account? <a href="{{ url_for('login') }}" style="color: #4A90E2; text-decoration: none; font-weight: bold;">Log in here</a>
+    </div>
+    </form>
+</div>
+
+<script>
+    // Quick client-side check before hitting the server logic
+    function validatePasswords() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirm_password').value;
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return false;
+        }
+        return true;
+    }
+</script>
+</body>
+</html>
