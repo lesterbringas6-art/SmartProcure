@@ -1,3 +1,5 @@
+WORKING 
+
 CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `employee_id` varchar(50) DEFAULT NULL,
